@@ -409,7 +409,8 @@ def run_simple_experiment(
         print("WARNING: Clean model accuracy is low. Consider debugging.")
         return None
     print("Generating watermarks...")
-    wm_gen = WatermarkGenerator(train_data, num_watermark_samples=30)
+    num_watermark_samples = int(len(train_data) * alpha)
+    wm_gen = WatermarkGenerator(train_data, num_watermark_samples=num_watermark_samples)
     key_pairs = wm_gen.generate_watermark_set_with_clean_model(clean_model)
     print(f"Generated {len(key_pairs)} key inputs")
     print("Optimizing key inputs (Algorithm 2)...")
