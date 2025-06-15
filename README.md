@@ -53,6 +53,22 @@ For each dataset/alpha grid search, a summary CSV file is saved in the `results/
 - The number of key input (watermark) samples is set as `num_watermark_samples = int(len(train_data) * alpha)`.  
   If you wish to change this, edit the relevant line in `sage_watermark.py`.
 
+
+## Experimental Parameters
+
+| Parameter            | Values Used           | Paper’s Value     | Notes/Comments                   |
+|----------------------|-----------------------|-------------------|----------------------------------|
+| Dataset(s)           | ENZYMES, MSRC_9       | ENZYMES, MSRC_9   | -                                |
+| α (Watermark Ratio)  | 0.05, 0.1             | 0.05, 0.1         | -                                |
+| N_t (Random Nodes)   | 3, 4, 5               | 3, 4, 5           | -                                |
+| Training Epochs      | 200                   | 100               | **Different: Used 200 epochs**   |
+| Num. Runs            | 2                     | 10                | **Different: Used fewer runs**   |
+| Train/Test Split     | 80/20                 | 80/20             | -                                |
+| Optimizer            | Adam                  | Adam              | -                                |
+| Learning Rate        | 0.01                  | 0.01              | -                                |
+| Batch Size           | 32                    | 32                | -                                |
+
+
 ### ENZYMES Accuracy Loss (Watermarked Model, α = 0.1)
 
 | N_t | Accuracy Loss (Paper) | Accuracy Loss (Ours) |
