@@ -12,28 +12,28 @@ def run_grid_experiments(
     clean_epochs=200,
     wm_epochs=200,
     num_layers=3,
-    num_runs=5
+    num_runs=2  
 ):
     """
-    Runs a grid of watermarking experiments over datasets, alphas, and N_t values.
-    Aggregates and saves results as CSV summaries in the specified directory.
+    Run a grid of SAGE watermarking experiments across datasets, alpha values, and N_t values.
+    Aggregate results and save them as CSV summaries for each configuration.
 
     Args:
-        results_dir (str): Output directory for results.
-        datasets (list): List of dataset names to evaluate.
+        results_dir (str): Directory to save experiment outputs.
+        datasets (list): List of dataset names.
         alphas (list): List of alpha values (fraction of watermarked samples).
-        N_ts (list): List of N_t values (watermark trigger size).
-        clean_epochs (int): Training epochs for the clean model.
-        wm_epochs (int): Training epochs for the watermarked model.
-        num_layers (int): Number of layers in the model.
-        num_runs (int): Number of random seeds to average results.
+        N_ts (list): List of N_t values (watermark trigger sizes).
+        clean_epochs (int): Epochs for clean model training.
+        wm_epochs (int): Epochs for watermarked model training.
+        num_layers (int): Number of GNN layers.
+        num_runs (int): Number of repeated runs per configuration (averaged).
     """
     if datasets is None:
-        datasets = ['ENZYMES', 'IMDB-BINARY', 'IMDB-MULTI', 'MUTAG', 'PROTEINS', 'MSRC_9']
+        datasets = ['MSRC_9', 'ENZYMES']  
     if alphas is None:
-        alphas = [0.05, 0.10, 0.15, 0.20]
+        alphas = [0.05, 0.10]
     if N_ts is None:
-        N_ts = [3, 4, 5, 6, 7]
+        N_ts = [3, 4, 5]
 
     os.makedirs(results_dir, exist_ok=True)
     for dataset in datasets:
@@ -43,6 +43,7 @@ def run_grid_experiments(
                 for run in range(num_runs):
                     torch.manual_seed(run)
                     np.random.seed(run)
+                    print(f"Running: dataset={dataset}, alpha={alpha}, N_t={N_t}, run={run+1}")
                     result = run_simple_experiment(
                         dataset_name=dataset,
                         N_t=N_t,
@@ -52,6 +53,7 @@ def run_grid_experiments(
                         wm_epochs=wm_epochs,
                     )
                     results.append(result)
+                # Aggregate and save results for this config
                 effs = [r['effectiveness'] for r in results if r is not None]
                 clean_accs = [r['clean_accuracy'] for r in results if r is not None]
                 baseline_accs = [r['baseline_accuracy'] for r in results if r is not None]
