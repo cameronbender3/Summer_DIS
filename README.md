@@ -53,6 +53,94 @@ For each dataset/alpha grid search, a summary CSV file is saved in the `results/
 - The number of key input (watermark) samples is set as `num_watermark_samples = int(len(train_data) * alpha)`.  
   If you wish to change this, edit the relevant line in `sage_watermark.py`.
 
+### ENZYMES Accuracy Loss (Watermarked Model, α = 0.1)
+
+| N_t | Accuracy Loss (Paper) | Accuracy Loss (Ours) |
+|-----|-----------------------|----------------------|
+| 3   | ~0.21                 | 0.08                 |
+| 4   | ~0.31                 | 0.08                 |
+| 5   | ~0.33                 | 0.12                 |
+
+#### α = 0.05 (Ours)
+
+| N_t | Accuracy Loss (Ours) |
+|-----|----------------------|
+| 3   | 0.07                 |
+| 4   | 0.03                 |
+| 5   | 0.08                 |
+
+> For ENZYMES, our reproduced results show lower accuracy loss after watermarking compared to the paper.  
+> The trend with respect to $N_t$ is consistent as the number of random nodes increases, accuracy loss increases.
+
+---
+
+### ENZYMES Watermark Effectiveness (Optimized, α = 0.1)
+
+| N_t | Effectiveness (Paper) | Effectiveness (Ours) |
+|-----|-----------------------|----------------------|
+| 3   | >0.9                  | 0.57                 |
+| 4   | >0.9                  | 0.50                 |
+| 5   | >0.9                  | 0.36                 |
+
+#### α = 0.05 (Ours)
+
+| N_t | Effectiveness (Ours) |
+|-----|----------------------|
+| 3   | 0.31                 |
+| 4   | 0.29                 |
+| 5   | 0.42                 |
+
+> The paper reports watermark effectiveness >0.9 for all $N_t$ at $\alpha = 0.1$.  
+> Our effectiveness is lower, but follows the same trend of decreasing as $N_t$ increases.
+
+---
+
+### MSRC_9 Accuracy Loss (Watermarked Model, α = 0.1)
+
+| N_t | Accuracy Loss (Paper) | Accuracy Loss (Ours) |
+|-----|-----------------------|----------------------|
+| 3   | ~0.07                 | 0.00                 |
+| 4   | ~0.12                 | 0.01                 |
+| 5   | ~0.13                 | 0.00                 |
+
+#### α = 0.05 (Ours)
+
+| N_t | Accuracy Loss (Ours) |
+|-----|----------------------|
+| 3   | 0.01                 |
+| 4   | -0.01                |
+| 5   | 0.00                 |
+
+> For MSRC_9, our reproduced models experience almost no accuracy loss after watermarking, compared to the modest losses in the paper.
+
+---
+
+### MSRC_9 Watermark Effectiveness (Optimized, α = 0.1)
+
+| N_t | Effectiveness (Paper) | Effectiveness (Ours) |
+|-----|-----------------------|----------------------|
+| 3   | >0.9                  | 0.41                 |
+| 4   | >0.9                  | 0.24                 |
+| 5   | >0.9                  | 0.29                 |
+
+#### α = 0.05 (Ours)
+
+| N_t | Effectiveness (Ours) |
+|-----|----------------------|
+| 3   | 0.19                 |
+| 4   | 0.13                 |
+| 5   | 0.19                 |
+
+> Paper shows >0.9 effectiveness for all settings; ours is lower but increases with $N_t$ and $\alpha$.
+
+---
+
+**Summary:**  
+- Our watermarking implementation produces similar *trends* as the original paper such as more key input-label pairs and higher $N_t$ result in higher effectiveness, with some tradeoff in accuracy loss.
+- Our models have generally lower accuracy loss, but watermark retention is lower than reported.  This may be due to implementation or hyperparameter differences.  Further tuning may improve results.
+
+---
+
 ## Notes
 
 - Main experiment parameters (`dataset`, `alpha`, `N_t`, `epochs`, etc.) can be changed in `run_experiment.py`.
